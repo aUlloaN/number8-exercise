@@ -7,13 +7,11 @@
 
 	<title>Number8 Exercise</title>
 
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-
-	<link rel="stylesheet" href="https://github.com/necolas/normalize.css/blob/master/normalize.css">
 
 	<style type="text/css" media="screen">
 		.mt-20 {
@@ -21,6 +19,7 @@
 		}
 
 		.calendar {
+			margin: 0 auto;
 			margin-top: 50px;
 			max-width: 200px;
 		}
@@ -63,32 +62,173 @@
 		}
 
 	</style>
+
+	<script>
+		$(document).ready(function() {
+		    init();
+		});
+
+		function init() {
+			submitForm();
+		}
+
+		function submitForm() {
+			$('#dataForm').submit(function(event) {
+				console.log('submit');
+				event.preventDefault();
+
+				$('#calendarHTML').html('<ul class="weekdays"><li>S</li><li>M</li><li>T</li><li>W</li><li>T</li><li>F</li><li>S</li></ul>');
+
+				var holidays = ['2008-9-1'];
+
+				var startDate = $('#startDate').val();
+				var date = new Date(startDate);
+				var numberDays = parseInt($('#numberDays').val())+1;
+				var countryCode = $('#countryCode').val();
+				console.log(startDate, numberDays, countryCode);
+
+				var currentMonth = -1;
+				var output = '';
+
+				var months = [];
+				var m = {};
+				var weeks = [];
+				var w = {};
+				var days = [];
+				var d = {};
+
+				for(var i=0; i<numberDays; i++) {
+					var day = date.getDate();
+					var weekDay = date.getDay();
+					var month = date.getMonth();
+					var year = date.getFullYear();
+					var monthName = date.toLocaleString(countryCode, { month: "long" }) + " " + year;
+					var formatDay = year+'-'+(month+1)+'-'+day;
+					console.log(day, weekDay, month, monthName, formatDay);
+
+					if(currentMonth != month) {
+						if(days.length > 0) {
+							w = {
+								days: days
+							};
+							m.weeks.push(w);
+						}
+
+						currentMonth = month;
+
+						m = {
+							name: monthName,
+							weeks: weeks
+						};
+						months.push(m);
+
+						weeks = [];
+						days = [];
+					}
+
+					var classDay = ([0, 6].includes(weekDay)) ? 'weekend' : 'weekday';
+					classDay += ((holidays.includes(formatDay)) ? ' holyday' : '');
+
+					days[weekDay] = {
+						date: day,
+						classday: classDay,
+					};
+
+					if(weekDay == 6 || i==numberDays-1) {
+						w = {
+							days: days
+						};
+						m.weeks.push(w);
+
+						days = [];
+					}
+
+					date.setDate(date.getDate() + 1);
+				}
+				console.log(months);
+
+				calendar(months);
+			});
+		}
+
+		function calendar(months) {
+			var monthsHTML = '';
+			for(var i=0; i<months.length; i++) {
+				var monthHTML = monthCalendar(months[i]);
+				console.log(monthHTML);
+				monthsHTML += monthHTML;
+			}
+
+			$('#calendarHTML').append(monthsHTML);
+		}
+
+		function monthCalendar(month) {
+			var output = '<div class="month clearfix mt-20">';
+			output += '<span class="month-name">'+month.name+'</span>';
+
+			for(var i=0; i<month.weeks.length; i++) {
+				output += weekCalendar(month.weeks[i]);
+			}
+
+			output += '</div>';
+
+			return output;
+		}
+
+		function weekCalendar(week) {
+			var output = '<ul class="week">';
+
+			output += daysCalendar(week.days);
+
+			output += '</ul>';
+
+			return output;
+		}
+
+		function daysCalendar(days) {
+			var outputs = '';
+
+			for(var i=0; i<7; i++) {
+				var output = '';
+
+				if(days[i]) {
+					output += '<li class="day '+days[i].classday+'">'+days[i].date+'</li>';
+				} else {
+					output += '<li class="day">&nbsp;</li>';
+				}
+
+				outputs += output;
+			}
+
+			return outputs;
+		}
+	</script>
 </head>
 <body>
 	<div class="container-fluid">
-		<h1>Calendar</h1>
+		<h1 class="text-center">Calendar</h1>
 
-		<form class="form-inline">
+		<form id="dataForm" class="form-inline mt-20 text-center">
 			<div class="form-group">
 				<label for="startDate">Start Date</label>
-				<input type="date" class="form-control" id="startDate">
+				<input type="date" class="form-control" id="startDate" value="2008-08-15" required>
 			</div>
 
 			<div class="form-group">
 				<label for="numberDays">Number of Days</label>
-				<input type="number" class="form-control" id="numberDays" placeholder="Enter number of days">
+				<input type="number" class="form-control" id="numberDays" placeholder="Enter number of days" value="30" required>
 			</div>
 
 			<div class="form-group">
 				<label for="countryCode">Country Code</label>
-				<input type="text" class="form-control" id="countryCode" placeholder="Enter country code">
+				<input type="text" class="form-control" id="countryCode" placeholder="Enter country code" value="en" required>
 			</div>
 
-			<button type="button" class="btn btn-primary">Submit</button>
+			<button type="submit" class="btn btn-primary">Submit</button>
 		</form>
 
-		<div class="calendar">
-			<ul class="weekdays">
+		<div id="calendarHTML" class="calendar">
+			<!--<ul class="weekdays">
 				<li>S</li>
 				<li>M</li>
 				<li>T</li>
@@ -167,7 +307,7 @@
 					<li class="day">&nbsp;</li>
 					<li class="day">&nbsp;</li>
 				</ul>
-			</div>
+			</div>-->
 		</div>
 	</div>
 </body>
