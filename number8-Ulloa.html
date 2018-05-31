@@ -16,7 +16,52 @@
 	<link rel="stylesheet" href="https://github.com/necolas/normalize.css/blob/master/normalize.css">
 
 	<style type="text/css" media="screen">
-		
+		.mt-20 {
+			margin-top: 20px;
+		}
+
+		.calendar {
+			margin-top: 50px;
+			max-width: 200px;
+		}
+		.calendar .month-name {
+			background-color: #E8F3D0;
+			display: inline-block;
+			font-size: 16px;
+    		font-weight: bold;
+			text-align: center;
+			width: 100%;
+		}
+		.calendar ul {
+			list-style-type: none;
+			padding: 0px;
+			text-align: center;
+		}
+		.calendar ul li {
+			float: left;
+			padding: 4px 0;
+			width: 14.28%;
+		}
+		.calendar ul.weekdays li {
+			border: 1px solid #FFFFFF;
+			font-weight: bold;
+		}
+		.calendar .week {
+		}
+		.calendar .day {
+			background-color: #CCCCCC;
+			border: 1px solid #FFFFFF;
+		}
+		.calendar .weekend {
+			background-color: #FFFE0E;
+		}
+		.calendar .weekday {
+			background-color: #C6DA99;
+		}
+		.calendar .holyday {
+			background-color: #FA7F02;
+		}
+
 	</style>
 </head>
 <body>
@@ -41,6 +86,89 @@
 
 			<button type="button" class="btn btn-primary">Submit</button>
 		</form>
+
+		<div class="calendar">
+			<ul class="weekdays">
+				<li>S</li>
+				<li>M</li>
+				<li>T</li>
+				<li>W</li>
+				<li>T</li>
+				<li>F</li>
+				<li>S</li>
+			</ul>
+
+			<div class="month clearfix">
+				<span class="month-name">August 2008</span>
+				<ul class="week">
+					<li class="day">&nbsp;</li>
+					<li class="day">&nbsp;</li>
+					<li class="day">&nbsp;</li>
+					<li class="day">&nbsp;</li>
+					<li class="day">&nbsp;</li>
+					<li class="day weekday">15</li>
+					<li class="day weekend">16</li>
+				</ul>
+				<ul class="week">
+					<li class="day weekend">17</li>
+					<li class="day weekday">18</li>
+					<li class="day weekday">19</li>
+					<li class="day weekday">20</li>
+					<li class="day weekday">21</li>
+					<li class="day weekday">22</li>
+					<li class="day weekend">23</li>
+				</ul>
+				<ul class="week">
+					<li class="day weekend">24</li>
+					<li class="day weekday">25</li>
+					<li class="day weekday">26</li>
+					<li class="day weekday">27</li>
+					<li class="day weekday">28</li>
+					<li class="day weekday">29</li>
+					<li class="day weekend">30</li>
+				</ul>
+				<ul class="week">
+					<li class="day weekend">31</li>
+					<li class="day">&nbsp;</li>
+					<li class="day">&nbsp;</li>
+					<li class="day">&nbsp;</li>
+					<li class="day">&nbsp;</li>
+					<li class="day">&nbsp;</li>
+					<li class="day">&nbsp;</li>
+				</ul>
+			</div>
+
+			<div class="month clearfix mt-20">
+				<span class="month-name">September 2008</span>
+				<ul class="week">
+					<li class="day">&nbsp;</li>
+					<li class="day weekday holyday">1</li>
+					<li class="day weekday">2</li>
+					<li class="day weekday">3</li>
+					<li class="day weekday">4</li>
+					<li class="day weekday">5</li>
+					<li class="day weekend">6</li>
+				</ul>
+				<ul class="week">
+					<li class="day weekend">7</li>
+					<li class="day weekday">8</li>
+					<li class="day weekday">9</li>
+					<li class="day weekday">10</li>
+					<li class="day weekday">11</li>
+					<li class="day weekday">12</li>
+					<li class="day weekend">13</li>
+				</ul>
+				<ul class="week">
+					<li class="day weekend">14</li>
+					<li class="day">&nbsp;</li>
+					<li class="day">&nbsp;</li>
+					<li class="day">&nbsp;</li>
+					<li class="day">&nbsp;</li>
+					<li class="day">&nbsp;</li>
+					<li class="day">&nbsp;</li>
+				</ul>
+			</div>
+		</div>
 	</div>
 </body>
 </html>
